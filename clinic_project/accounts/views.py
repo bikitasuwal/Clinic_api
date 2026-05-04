@@ -27,10 +27,14 @@ def register(request):
 
         # check for doctor or patient
         if user.role == "doctor":
-            Doctor.objects.create(user=user)
+            Doctor.objects.create(user=user,specialization=request.data['specialization'],experience=request.data['experience'])
 
         elif user.role == "patient":
-            Patient.objects.create(user=user)
+            print(request.user)
+            print(request.data["age"])
+            Patient.objects.create(user=user,age= request.data['age'])
+
+
         print("Doctor count:", Doctor.objects.count())
         print("Patient count:", Patient.objects.count())
         return Response({"message": "Registration successful"})

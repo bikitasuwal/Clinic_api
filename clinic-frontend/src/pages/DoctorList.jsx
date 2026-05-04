@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { getPatients } from "../services/api";
+import { getDoctors } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
-function PatientList() {
-  const [patients, setPatients] = useState([]);
+function DoctorList() {
+  const [Doctors, setDoctors] = useState([]);
   const navigate = useNavigate();
 
-  const loadPatients = () => {
-    getPatients()
+  const loadDoctors = () => {
+    getDoctors()
       .then((res) => {
-        setPatients(res.data);
+        setDoctors(res.data);
       })
       .catch((err) => {
         console.log("Error:", err);
@@ -17,7 +17,7 @@ function PatientList() {
   };
 
   useEffect(() => {
-    loadPatients();
+    loadDoctors();
   }, []);
 //logout button
 const handleLogout = () =>{
@@ -26,12 +26,12 @@ const handleLogout = () =>{
     };
   return (
     <div>
-      <h2>Patient List</h2>
+      <h2>Doctor List</h2>
 <button onClick={handleLogout}>Logout</button>
-      {patients.map((p) => (
+      {Doctors.map((p) => (
         <div key={p.id}>
           <p>
-            {p.username} - {p.age}
+            {p.username} - {p.specialization}
           </p>
         </div>
       ))}
@@ -39,4 +39,4 @@ const handleLogout = () =>{
   );
 }
 
-export default PatientList;
+export default DoctorList;

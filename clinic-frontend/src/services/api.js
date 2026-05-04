@@ -30,9 +30,11 @@ export default API;
 // API endpoints
 export const getPatients = () => API.get("clinic/patient/");
 export const addPatient = (data) => API.post("clinic/patient/", data);
-
+export const getDoctors = () => API.get("clinic/doctors/");
 // add for registration
 export const registerPatient = (data) =>
   API.post("register/", data);
+
 export const registerDoctor = (data) =>
-  API.post("clinic/doctor/", data);
+  API.post("clinic/doctors/", data);
+

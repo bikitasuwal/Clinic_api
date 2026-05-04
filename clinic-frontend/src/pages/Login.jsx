@@ -19,8 +19,11 @@ function Login() {
       //  store token
       localStorage.setItem("token", res.data.access);
 
-      //  redirect to patient-list
-      navigate("/patient-list");
+     if (role === "doctor") {
+        navigate("/doctor-list");
+      } else {
+        navigate("/patient-list");
+      }
     } catch (err) {
       alert("Invalid credentials");
     }

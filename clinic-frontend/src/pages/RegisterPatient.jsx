@@ -1,28 +1,30 @@
 import { useState } from "react";
 import { registerPatient } from "../services/api";
 import { useNavigate } from 'react-router-dom';
-
+import axios from "axios";
 function RegisterPatient() {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-
+  const [age, setAge] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit =  (e) => {
     e.preventDefault();
+        //registration of patient
+         axios.post("/api/register/", {username,password, role:"patient",age,})
+        //auto login
+       .then(() => {
+            return axios.post("/api/token/", { username, password });
+          })
+          .then((res) => {
+            localStorage.setItem("token", res.data.access);
+            navigate("/patient-list");
+          })
+               .catch((err) => {
+            console.log(err.response?.data);
+          });
 
-    registerPatient({ username, password ,role: "patient"})
-      .then(() => {
-        alert("Patient registered!");
-       navigate("/");
-      })
-      .catch((err) => {
-          console.log("full error:",err);
-          console.log("response data error:",err.response?.data);
 
-          console.log("status:",err.response?.status);
-        alert(JSON.stringify(err.response?.data));
-      });
   };
 
   return (
@@ -39,6 +41,11 @@ function RegisterPatient() {
         placeholder="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+      />
+      <input
+        placeholder="Age"
+        value={age}
+        onChange={(e) => setAge(e.target.value)}
       />
 
       <button type="submit">Register</button>

@@ -1,20 +1,44 @@
 import { useState } from "react";
-import { registerDoctor } from "../services/api";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function RegisterDoctor() {
-  const [name, setName] = useState("");
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   const [specialization, setSpecialization] = useState("");
+  const [experience, setExperience] = useState("");
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate(); //  IMPORTANT
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    registerDoctor({ name, specialization })
-      .then(() => {
-        alert("Doctor registered!");
-      })
-      .catch(() => {
-        alert("Error");
+    try {
+      //  1. REGISTER DOCTOR
+      await axios.post("/api/register/", {
+        username,
+        password,
+        role: "doctor",
+        specialization,
+        experience: Number(experience), //  ensure number
       });
+
+      //  2. AUTO LOGIN
+      const res = await axios.post("/api/token/", {
+        username,
+        password,
+      });
+
+      //  3. SAVE TOKEN
+      localStorage.setItem("token", res.data.access);
+
+      //  4. REDIRECT
+      navigate("/doctor-list");
+
+    } catch (err) {
+      console.log("ERROR:", err.response?.data);
+      alert("Registration failed");
+    }
   };
 
   return (
@@ -22,13 +46,28 @@ function RegisterDoctor() {
       <h2>Register Doctor</h2>
 
       <input
-        placeholder="Name"
-        onChange={(e) => setName(e.target.value)}
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUserName(e.target.value)}
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
 
       <input
         placeholder="Specialization"
+        value={specialization}
         onChange={(e) => setSpecialization(e.target.value)}
+      />
+
+      <input
+        placeholder="Experience"
+        value={experience}
+        onChange={(e) => setExperience(e.target.value)}
       />
 
       <button type="submit">Register</button>

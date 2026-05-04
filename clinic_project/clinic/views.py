@@ -12,8 +12,8 @@ from .serializers import DoctorSerializer, PatientSerializer, AppointmentSeriali
 # Create your views here.
 #annotation
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
+@api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
 def doctor_list(request):
     doctors = Doctor.objects.select_related('user').all()
 
