@@ -9,8 +9,9 @@ import DoctorList from "./pages/DoctorList";
 import AdminDashboard from "./pages/AdminDashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
 import PatientDashboard from "./pages/PatientDashboard";
-
 import Profile from "./pages/Profile";
+import BookAppointment from "./pages/appointment/BookAppointment";
+
 
 function App() {
   const isAuthenticated = localStorage.getItem("token");
@@ -28,13 +29,20 @@ function App() {
              <Route path="/patient-list" element={<PatientList />} />
               <Route path="/home-page" element={<HomePage />} />
 
-              <Route path="/register_doctor" element={<RegisterDoctor />} />
+
              <Route path="/doctor-list" element={<DoctorList />} />
 
              <Route path="/admin-dashboard" element={<AdminDashboard />} />
              <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
              <Route path="/patient-dashboard" element={<PatientDashboard />} />
              <Route path="/profile" element={<Profile />} />
+
+              <Route path="/book-appointment" element={<BookAppointment />} />
+
+
+
+
+
 
           {/* Protected Route */}
           <Route

@@ -100,10 +100,8 @@ def patient_detail(request, pk):
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def appointment_list(request):
-
     if request.method == 'GET':
         appointments = Appointment.objects.select_related('doctor__user', 'patient__user').all()
-
         data = [
             {
                 "id": a.id,
@@ -114,9 +112,7 @@ def appointment_list(request):
             }
             for a in appointments
         ]
-
         return Response(data)
-
     elif request.method == 'POST':
         serializer = AppointmentSerializer(data=request.data)
 
@@ -128,10 +124,8 @@ def appointment_list(request):
             # to prevent double booking
             if Appointment.objects.filter(doctor=doctor, date=date, time=time).exists():
                 return Response({"error": "Doctor already booked"}, status=400)
-
             serializer.save()
             return Response(serializer.data)
-
         return Response(serializer.errors)
 
 @api_view(['GET', 'PUT', 'DELETE'])

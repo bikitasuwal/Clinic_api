@@ -84,8 +84,9 @@ to change admin password
 python manage.py shell
 from accounts.models import User  # or your custom user
 user = User.objects.get(username="admin")
-user.set_password("your_new_password")
+user.set_password("adminadminadmin")
 user.save()
+exit()
 
 for django to react for admin and its password because jwtlogin != django login
 Step-by-step: Run in Django shell
@@ -127,3 +128,5 @@ user.set_password("adminadminadmin")
 user.save()
  7. Exit shell
 exit()
+
+
