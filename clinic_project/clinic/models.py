@@ -25,6 +25,7 @@ class Appointment(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     date = models.DateField()
     time = models.TimeField()
+    description = models.TextField(blank=True, help_text="Reason for appointment/symptoms")
     status = models.CharField(max_length=100,
                               choices=[
                                   ("pending","Pending"),
@@ -32,3 +33,7 @@ class Appointment(models.Model):
                                   ("rejected","Rejected")
                               ],default="pending")
     created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        def __str__(self):
+            return f"{self.patient} → {self.doctor} on {self.date} at {self.time} [{self.get_status_display()}]"
