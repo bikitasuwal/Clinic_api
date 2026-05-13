@@ -11,7 +11,7 @@ import DoctorDashboard from "./pages/DoctorDashboard";
 import PatientDashboard from "./pages/PatientDashboard";
 import Profile from "./pages/Profile";
 import BookAppointment from "./pages/appointment/BookAppointment";
-
+import Status from "./Components/Status";
 
 function App() {
   const isAuthenticated = localStorage.getItem("token");
@@ -23,26 +23,21 @@ function App() {
 
         <Routes>
           {/*  Pages */}
-             <Route path="/register" element={<RegisterPatient />} />
-             <Route path="/register_doctor" element={<RegisterDoctor />} />
-             <Route path="/login" element={<Login />} />
-             <Route path="/patient-list" element={<PatientList />} />
-              <Route path="/home-page" element={<HomePage />} />
+          <Route path="/register" element={<RegisterPatient />} />
+          <Route path="/register_doctor" element={<RegisterDoctor />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/patient-list" element={<PatientList />} />
+          <Route path="/home-page" element={<HomePage />} />
 
+          <Route path="/doctor-list" element={<DoctorList />} />
 
-             <Route path="/doctor-list" element={<DoctorList />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+          <Route path="/patient-dashboard" element={<PatientDashboard />} />
+          <Route path="/profile" element={<Profile />} />
 
-             <Route path="/admin-dashboard" element={<AdminDashboard />} />
-             <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
-             <Route path="/patient-dashboard" element={<PatientDashboard />} />
-             <Route path="/profile" element={<Profile />} />
-
-              <Route path="/book-appointment" element={<BookAppointment />} />
-
-
-
-
-
+          <Route path="/book-appointment" element={<BookAppointment />} />
+          <Route path="/status" element={<Status />} />
 
           {/* Protected Route */}
           <Route
@@ -52,30 +47,13 @@ function App() {
             }
           />
 
+          <Route path="/login" element={<Navigate to="/login" />} />
+          <Route path="/" element={<Navigate to="/home-page" />} />
           <Route
-            path="/login"
-            element={
-               <Navigate to="/login" />
-            }
-          />
-          <Route
-            path="/"
-            element={
-               <Navigate to="/home-page" />
-            }
-          />
-           <Route
             path="register_doctor"
-            element={
-               <Navigate to="/register_doctor" />
-            }
+            element={<Navigate to="/register_doctor" />}
           />
-           <Route
-            path="doctor-list"
-            element={
-               <Navigate to="/doctor-list" />
-            }
-          />
+          <Route path="doctor-list" element={<Navigate to="/doctor-list" />} />
         </Routes>
       </div>
     </BrowserRouter>
