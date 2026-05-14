@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from .models import Doctor, Patient, Appointment
-from .serializers import DoctorSerializer, PatientSerializer, AppointmentSerializer
+from .serializers import DoctorSerializer, PatientProfileSerializer, PatientSerializer, AppointmentSerializer
 
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
@@ -158,4 +158,23 @@ def appointment_detail(request, pk):
         return Response({"message": "deleted"}, status=204)
 
 
+# ── NEW: logged-in patient views and updates their own profile ────────────────
+@api_view(['GET', 'PATCH'])
+@permission_classes([IsAuthenticated])
+def patient_profile(request):
+    try:
+        patient = Patient.objects.select_related('user').get(user=request.user)
+    except Patient.DoesNotExist:
+        return Response({"error": "Patient profile not found."}, status=404)
+ 
+    if request.method == 'GET':
+        serializer = PatientProfileSerializer(patient)
+        return Response(serializer.data)
+ 
+    # PATCH — only update the fields that were sent
+    serializer = PatientProfileSerializer(patient, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=400)
 
