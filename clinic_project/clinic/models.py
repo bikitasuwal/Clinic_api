@@ -13,7 +13,6 @@ class Doctor(models.Model):
     specialization = models.CharField(max_length=100)
     experience = models.CharField(max_length=100)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default='other')
-    phone = models.CharField(max_length=15, blank=True)
     qualification = models.CharField(max_length=100, blank=True)
     phone = models.CharField(max_length=15, blank=True)
     bio = models.TextField(blank=True)
