@@ -23,9 +23,14 @@ class DoctorSerializer(serializers.ModelSerializer):
         ]
 
 class PatientSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Patient
-        fields = '__all__'
+        fields = [
+            'id', 'user', 'username', 'age', 'gender', 'phone', 
+            'height', 'weight', 'address', 'blood_group', 
+            'medical_conditions', 'created_at'
+        ]
 
 class AppointmentSerializer(serializers.ModelSerializer):
     doctor_name = serializers.CharField(source='doctor.user.username', read_only=True)
@@ -34,4 +39,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
-        fields = ['id', 'doctor', 'doctor_name', 'doctor_info', 'patient', 'patient_name', 'date', 'time', 'description', 'status', 'created_at', 'updated_at']
+        fields = [ 
+              'id', 'doctor', 'doctor_name', 'doctor_info', 'patient',
+              'patient_name', 'date', 'time', 'description', 'status',  
+              'created_at', 'updated_at'
+            ]
