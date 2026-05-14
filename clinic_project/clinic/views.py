@@ -175,8 +175,13 @@ def appointment_detail(request, pk):
         serializer = AppointmentSerializer(appointment)
         return Response(serializer.data)
 
-    #update and change status of  appointment request by doctor and patient
+    #update and change status of appointment request by doctor and patient
     if request.method in ['PUT', 'PATCH']:
+        if user.role == 'doctor':
+            DOCTOR_ALLOWED_STATUSES = ['approved', 'rejected', 'cancelled', 'rescheduled', 'completed']
+            new_status = request.data.get('status')
+            if new_status and new_status not in DOCTOR_ALLOWED_STATUSES:
+                return Response({"error": "Invalid status"}, status=400)
         serializer = AppointmentSerializer(appointment, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -187,6 +192,3 @@ def appointment_detail(request, pk):
     if request.method == 'DELETE':
         appointment.delete()
         return Response({"message": "deleted"}, status=204)
-
-
-
