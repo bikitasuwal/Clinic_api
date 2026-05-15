@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from .models import Doctor, Patient, Appointment
-from .serializers import DoctorSerializer, PatientProfileSerializer, PatientSerializer, AppointmentSerializer
+from .serializers import DoctorSerializer, PatientSerializer, AppointmentSerializer
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
